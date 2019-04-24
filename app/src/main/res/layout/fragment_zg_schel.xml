@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ZGFragment.ZgSchelFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="419dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="选择连接方式" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/schel_ios"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="IOS" />
+                    <RadioButton
+                        android:id="@+id/schel_android"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="Android" />
+                </RadioGroup>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="日程索引："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/schel_Index"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请选择日期 和时间" />
+
+            <Button
+                android:id="@+id/btn_month_day_hour_minute_schel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/month_day_hour_minute"
+                />
+            <TextView
+                android:id="@+id/tv_time1_schel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="18sp"
+                />
+
+            <LinearLayout
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="87dp">
+
+                <TextView
+                    android:layout_width="122dp"
+                    android:layout_height="wrap_content"
+                    android:text="日程的提示信息:" />
+
+                <EditText
+                    android:id="@+id/warn_edit_schel"
+                    android:layout_width="182dp"
+                    android:layout_height="wrap_content"
+                    android:maxLength="5" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="最多输入10个汉字或31个英文字符"
+                android:textSize="10dp" />
+
+            <Button
+                android:id="@+id/btn_editZGSchel"
+                android:layout_width="102dp"
+                android:layout_height="61dp"
+                android:text="设置日程"
+                />
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:id="@+id/zginstructionshow33"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

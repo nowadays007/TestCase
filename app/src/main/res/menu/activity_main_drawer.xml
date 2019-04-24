@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_eletricty"
+            android:title="Electricity" />
+        <item
+            android:id="@+id/nav_time"
+            android:title="Time" />
+        <item
+            android:id="@+id/nav_alarm"
+            android:title="Alarm clock" />
+        <item
+            android:id="@+id/nav_Setschel"
+            android:title="Setting schedule" />
+        <item
+            android:id="@+id/nav_closchel"
+            android:title="Close schedule" />
+        <item
+            android:id="@+id/nav_weather"
+            android:title="The weather" />
+        <item
+            android:id="@+id/nav_datasn"
+            android:title="61data synchronization" />
+        <item
+            android:id="@+id/nav_64data"
+            android:title="64data synchronization" />
+        <item
+            android:id="@+id/nav_write"
+            android:title="Write instruction" />
+        <item
+            android:id="@+id/nav_Test"
+            android:title="Test" />
+
+    </group>
+
+
+
+</menu>

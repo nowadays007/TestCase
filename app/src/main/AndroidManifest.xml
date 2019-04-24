@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    package="com.example.ck.myble">
+
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <!-- #定位权限 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- #弹出窗口 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <!-- &lt;!&ndash; 在SDCard中创建与删除文件权限 &ndash;&gt; -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!-- 往SDCard写入数据权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_FORMAT_FILESYSTEMS" />
+
+    <!-- 网络权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- 写文件 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" /> -->
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/floapk"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/mapapk"
+        android:supportsRtl="true"
+        android:theme="@android:style/Theme.Holo.Light"
+        android:screenOrientation="portrait">
+
+        <!-- android:theme="@style/AppTheme"> -->
+        <!-- android:theme="@android:style/Theme.Holo.Light"> -->
+        <!-- android:theme="@style/Theme.AppCompat.NoActionBar"> -->
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/them1">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ConnectActivity"
+            android:label="@string/title_activity_connect"
+            android:theme="@style/them1" />
+
+        <service
+            android:name=".BluetoothLeService"
+            android:enabled="true" />
+
+        <activity
+            android:name=".WriteActivity"
+            android:label="@string/title_activity_write"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".dataFile.TestCaseListActivity"
+            android:label="@string/title_activity_test_case_list"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".showActivity"
+            android:label="@string/title_activity_show"></activity>
+
+    </application>
+
+</manifest>

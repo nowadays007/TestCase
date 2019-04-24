@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_MTK"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="MTK/Iwown"/>
+
+    <!--<item-->
+        <!--android:id="@+id/navigation_PROBUF"-->
+        <!--android:icon="@drawable/ic_dashboard_black_24dp"-->
+        <!--android:title="PROBUF"/>-->
+
+    <item
+        android:id="@+id/navigation_ZG"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="ZG"/>
+    <item
+        android:id="@+id/navigation_all"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="ALL"
+        />
+
+</menu>

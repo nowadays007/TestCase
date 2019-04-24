@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ZGFragment.Zg7DayFragment">
+
+    <LinearLayout
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="419dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="选择连接方式" />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/dataday7_ios"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="IOS" />
+                <RadioButton
+                    android:id="@+id/dataday7_android"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Android" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <Button
+            android:layout_marginTop="30dp"
+            android:id="@+id/btn_7dayData"
+            android:layout_width="wrap_content"
+            android:layout_height="59dp"
+            android:text="获取7天日期" />
+
+    <android.support.v7.widget.RecyclerView
+        android:descendantFocusability="beforeDescendants"
+        android:fastScrollEnabled="false"
+        android:id="@+id/list7dayData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.RecyclerView>
+
+
+    </LinearLayout>
+
+</FrameLayout>

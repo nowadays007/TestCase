@@ -1,0 +1,17 @@
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_height="wrap_content"
+             android:layout_width="56dp"
+             android:minWidth="56dp">
+
+    <ProgressBar
+        android:layout_width="28dp"
+        android:layout_height="27dp"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="搜索中" />
+</FrameLayout>

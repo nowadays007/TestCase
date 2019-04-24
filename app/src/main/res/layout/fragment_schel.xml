@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".mktFragment.SchelFragment">
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="80dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <Button
+            android:id="@+id/btn_month_day_hour_minute3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/month_day_hour_minute"
+            />
+        <TextView
+            android:id="@+id/tv_time3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="18sp"
+            />
+
+        <LinearLayout
+        android:layout_width="419dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="12dp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="87dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="闹钟是否为智能闹钟:" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/ordinary_radio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="普通提醒" />
+
+            <RadioButton
+                android:id="@+id/sport_radio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="运动提醒" />
+        </RadioGroup>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="57dp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="87dp">
+
+        <TextView
+            android:layout_width="122dp"
+            android:layout_height="wrap_content"
+            android:text="闹钟的提示信息:" />
+
+        <EditText
+            android:id="@+id/message_edit"
+            android:layout_width="182dp"
+            android:layout_height="wrap_content"
+            android:maxLength="5" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="最多输入5个汉字"
+        android:textSize="10dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_editSchedule"
+            android:layout_width="102dp"
+            android:layout_height="61dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="16dp"
+            android:text="设置日程"/>
+
+    </LinearLayout>
+        <TextView
+            android:text="设置该闹钟指令为"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/instructionshow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</FrameLayout>

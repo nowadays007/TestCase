@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".mktFragment.TimeFragment"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_marginTop="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_marginLeft="20dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/getTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Get Time" />
+            <Button
+                android:layout_marginLeft="30dp"
+                android:id="@+id/btn_editTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Set time" />
+        </LinearLayout>
+        <Button
+            android:id="@+id/btn_month_day_hour_minute"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/month_day_hour_minute"
+            android:layout_marginLeft="20dp"
+            />
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="18sp"
+            />
+
+        <TextView
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="Equipment time is:" />
+
+        <TextView
+            android:id="@+id/show_time"
+            android:layout_width="291dp"
+            android:layout_height="70dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:text="输入指令为:" />
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:id="@+id/instructionshow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</FrameLayout>

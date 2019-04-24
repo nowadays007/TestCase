@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ZGFragment.ZgCallFragment">
+
+    <LinearLayout
+        android:layout_marginTop="80dp"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="23dp"
+        android:text="请输入设备消息" />
+
+    <EditText
+        android:id="@+id/segment_edit"
+        android:layout_width="248dp"
+        android:layout_height="50dp"
+        android:maxLength="32"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btn_call"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="来电提醒" />
+
+            <Button
+                android:id="@+id/btn_mail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="消息提醒" />
+        </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_closeCall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="挂断电话" />
+    </LinearLayout>
+</FrameLayout>

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ZGFragment.ZgTimeFragment"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_marginBottom="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="419dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="选择连接方式" />
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkedButton="@id/bool_android"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/bool_ios"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="IOS" />
+                <RadioButton
+                    android:id="@+id/bool_android"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Android" />
+            </RadioGroup>
+        </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/ZGgetTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Get Time" />
+        <Button
+            android:id="@+id/btn_ZGTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set time" />
+    </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_month_day_hour_minute11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/month_day_hour_minute"
+            />
+        <TextView
+            android:id="@+id/tv_time11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="18sp"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/cb_Monday11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="星期一" />
+
+            <CheckBox
+                android:id="@+id/cb_Tuesday11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="星期二" />
+
+            <CheckBox
+                android:id="@+id/cb_Wednesday11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="星期三" />
+
+            <CheckBox
+                android:id="@+id/cb_Thursday11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="星期四" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/cb_Friday11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="星期五" />
+
+            <CheckBox
+                android:id="@+id/cb_Saturday11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="星期六" />
+
+            <CheckBox
+                android:id="@+id/cb_Sunday11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="周日" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="请输入天气值："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/temperature_input"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="选择天气状况:" />
+            <RadioGroup
+                android:button="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:text="晴"
+                    android:id="@+id/btn_sun11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:text="多云"
+                    android:id="@+id/btn_cloudy11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:text="阴天"
+                    android:id="@+id/overcast11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:text="小雨"
+                    android:id="@+id/light_rain11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:text="中雨"
+                    android:id="@+id/moderate_rain11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:text="大雨"
+                    android:id="@+id/heavy_rain11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:text="阵雨"
+                    android:id="@+id/shower11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:text="雪"
+                    android:id="@+id/snow11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:text="雾霾"
+                    android:id="@+id/fog11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:text="沙尘暴"
+                    android:id="@+id/sand_storm11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:text="多云转晴"
+                    android:id="@+id/cloudy_sun11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:text="雷雨"
+                    android:id="@+id/thunderstorm11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:text="其他天气"
+                    android:id="@+id/others11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/show_time22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:id="@+id/instructionshow11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    </ScrollView>
+</FrameLayout>
