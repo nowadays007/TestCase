@@ -38,54 +38,8 @@ public class MainActivity extends ListActivity {
     private static final int REQUEST_ENABLE_BT = 1;
     // Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 10000;
-//
-////    private String strScanUUID = "0000ff20-0000-1000-8000-00805f9b34fb";
-//    private String strScanUUID = "0000ff20-0000-1000-8000-00805f9b34fb";
-
 
     private String TAG = "MainActivty";
-//    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-//            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-//
-//        @Override
-//        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//            switch (item.getItemId()) {
-//                case R.id.navigation_MTK:
-//                    mScanning = false;
-//                    mBluetoothAdapter.stopLeScan(mLeScanCallback);
-//                    mLeDeviceListAdapter.clear();
-//                    strScanUUID = "0000180D-0000-1000-8000-00805f9b34fb";
-//                    scanLeDevice(true);
-//                    mLeDeviceListAdapter.notifyDataSetChanged();
-//                    return true;
-////                case R.id.navigation_PROBUF:
-////                    mScanning = false;
-////                    mBluetoothAdapter.stopLeScan(mLeScanCallback);
-////                    mLeDeviceListAdapter.clear();
-////                    strScanUUID = "2E8C0001-2D91-5533-3117-59380A40AF8F";
-////                    scanLeDevice(true);
-////                    mLeDeviceListAdapter.notifyDataSetChanged();
-////                    return true;
-//                case R.id.navigation_ZG:
-//                    mScanning = false;
-//                    mBluetoothAdapter.stopLeScan(mLeScanCallback);
-//                    mLeDeviceListAdapter.clear();
-//                    mLeDeviceListAdapter.notifyDataSetChanged();
-//                    strScanUUID = "6e400001-b5a3-f393-e0a9-e50e24dcca9e";
-//                    scanLeDevice(true);
-//                    return true;
-//                case R.id.navigation_all:
-//                    mScanning = false;
-//                    mBluetoothAdapter.stopLeScan(mLeScanCallback);
-//                    mLeDeviceListAdapter.clear();
-//                    mLeDeviceListAdapter.notifyDataSetChanged();
-//                    strScanUUID = "";
-//                    scanLeDevice(true);
-//                    return true;
-//            }
-//            return false;
-//        }
-//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +47,6 @@ public class MainActivity extends ListActivity {
         setContentView(R.layout.activity_main);
 
         getActionBar().setTitle(R.string.title_devices);
-//        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-//        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
         mHandler = new Handler();
 
         PermissionsUtils.handleLOCATION(this, new PermissionsUtils.PermissinCallBack() {
@@ -259,9 +210,18 @@ public class MainActivity extends ListActivity {
                                 invalidateOptionsMenu();
                             }else {
                                 Utils.setShareAddress(MainActivity.this,device.getAddress(),device.getName());
-                                if(device.getName()!=null){
-                                    mLeDeviceListAdapter.addDevice(device);
-                                    mLeDeviceListAdapter.notifyDataSetChanged();
+                                if(device.getName()!=null) {
+                                    if (device.getName().substring(0, 2).equals("le") ) {
+                                        Log.e("哈哈哈哈：", device.getName());
+                                        Log.e("哈哈哈哈：", device.getName().substring(0,2));
+                                        mLeDeviceListAdapter.addDevice(device);
+                                        mLeDeviceListAdapter.notifyDataSetChanged();
+
+                                        if (mScanning) {
+                                            mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                                            mScanning = false;
+                                        }
+                                    }
                                 }
                             }
 

@@ -144,8 +144,8 @@ public class ConnectActivity extends Activity {
                             /**
                              * 跳转到 发送指令 的页面
                              */
-                            Intent intent = new Intent(ConnectActivity.this,TestCaseListActivity.class);
-//                            Intent intent = new Intent(ConnectActivity.this,WriteActivity.class);
+//                            Intent intent = new Intent(ConnectActivity.this,TestCaseListActivity.class);
+                            Intent intent = new Intent(ConnectActivity.this,WriteActivity.class);
                             intent.putExtra(EXTRAS_DEVICE_ADDRESS,mDeviceAddress);
                             startActivity(intent);
 
