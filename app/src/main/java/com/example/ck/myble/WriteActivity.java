@@ -63,7 +63,7 @@ public class WriteActivity extends Activity {
         BluetoothGattCharacteristic characteristic1 = MyApplication.getInstance().mBluetoothLeService.characteristiByUUIDProb();
         characteristic1.setValue(bytes);
 //        ProtoBle.getInstance().writeDataToWristBand();
-        MyApplication.getInstance().mBluetoothLeService.mBluetoothGatt.writeCharacteristic(characteristic1);
+        BluetoothLeService.mBluetoothGatt.writeCharacteristic(characteristic1);
 
 
     }

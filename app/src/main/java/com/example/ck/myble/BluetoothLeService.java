@@ -147,7 +147,7 @@ public class BluetoothLeService extends Service {
 
                     BluetoothGattCharacteristic ztic1 = MyApplication.getInstance().mBluetoothLeService.characteristiByUUIDZG();
                     ztic1.setValue(c);
-                    MyApplication.getInstance().mBluetoothLeService.mBluetoothGatt.writeCharacteristic(ztic1);
+                    mBluetoothGatt.writeCharacteristic(ztic1);
 
                 } else {
                     showActivity.sendLength = -1;
@@ -181,7 +181,7 @@ public class BluetoothLeService extends Service {
             byte[] receiverData = characteristic.getValue();
             if (ProtoBufUUID.BAND_CHARACT_NOTIFY_UUID.equals(characteristic.getUuid())) {
                 //接收
-                Log.e("0808", "onCharacteristicChanged"+Utils.bytesToString(receiverData));
+//                Log.e("0808", "onCharacteristicChanged"+Utils.bytesToString(receiverData));
                 if (receiverData[0] == 0x44 && receiverData[1] == 0x54) {
                     length = ((receiverData[3] & 0xff) << 8) | (receiverData[2] & 0xff);
 //                    KLog.i("yanxi111", "length:" + length + "");
@@ -199,7 +199,7 @@ public class BluetoothLeService extends Service {
                             //校验成功
 //                            parseData(characteristic.getUuid(), newByte);
                             broadcastUpdatePro(ACTION_DATA_AVAILABLE, characteristic,newByte);
-                            Log.e(TAG,"Service onCharacteristChanged %%%% %%%"+newByte);
+//                            Log.e(TAG,"Service onCharacteristChanged %%%% %%%"+newByte);
                             super.onCharacteristicChanged(gatt, characteristic);
                         }
                         newByte = new byte[]{};
@@ -211,24 +211,24 @@ public class BluetoothLeService extends Service {
                 } else {
                     if (!isDataOver) {
                         //非头部
-                        Log.i("newbyte", newByte.length + "");
+//                        Log.i("newbyte", newByte.length + "");
                         newByte = Utils.concat(newByte, receiverData);
 
                         if (newByte.length - 8 == length) {
-                            Log.d("80899", "拆分---" + Utils.bytesToString(newByte, false));
+//                            Log.d("80899", "拆分---" + Utils.bytesToString(newByte, false));
                             //结束
                             //数据不用分开收
                             //校验
                             int a = Utils.crc16Modem(Arrays.copyOfRange(newByte, 8, newByte.length));
                             byte high = (byte) ((a & 0xff00) >> 8);
                             byte low = (byte) (a & 0xff);
-                            Log.d("808", String.format("%02X", high) + "---" + String.format("%02X", low));
+//                            Log.d("808", String.format("%02X", high) + "---" + String.format("%02X", low));
                             if (high == newByte[5] && low == newByte[4]) {
-                                Log.i("808", "校验成功");
+//                                Log.i("808", "校验成功");
 //                                parseData(characteristic.getUuid(), newByte);
 
                                 broadcastUpdatePro(ACTION_DATA_AVAILABLE, characteristic,newByte);
-                            Log.e(TAG,"Service onCharacteristChanged %%%% %%%"+newByte);
+//                            Log.e(TAG,"Service onCharacteristChanged %%%% %%%"+newByte);
                             super.onCharacteristicChanged(gatt, characteristic);
                             }
                             newByte = new byte[]{};
@@ -254,7 +254,6 @@ public class BluetoothLeService extends Service {
                             if(receiverData[2]==(byte)0x8F){
 //                                KLog.d("no2s 收到一条256的包，重置超时: ");
 //                                BleHandler.getInstance().setSendStatusNotOver();
-                                Log.e(TAG,"哈哈哈哈哈哈哈");
                             }
                         }
                     }
@@ -306,7 +305,7 @@ public class BluetoothLeService extends Service {
                     stringBuilder.append(String.format("%02X ", byteChar)); //以16进制补位输出
                 intent.putExtra(EXTRA_DATA, stringBuilder.toString());
                 intent.putExtra(EXTRA_DATA1, data);
-                Log.e(TAG, "broadcastUpdate: EXRA_DATAD"+ stringBuilder.toString());
+//                Log.e(TAG, "broadcastUpdate: EXRA_DATAD"+ stringBuilder.toString());
             }
         }
         sendBroadcast(intent);
@@ -329,7 +328,6 @@ public class BluetoothLeService extends Service {
             Log.d(TAG, String.format("Received heart rate: %d", heartRate));
             intent.putExtra(EXTRA_DATA, String.valueOf(heartRate));
         } else {
-            // For all other profiles, writes the data formatted in HEX.
             final byte[] data = newByte;
             if (data != null && data.length > 0) {
                 final StringBuilder stringBuilder = new StringBuilder(data.length);
@@ -337,7 +335,6 @@ public class BluetoothLeService extends Service {
                     stringBuilder.append(String.format("%02X ", byteChar)); //以16进制补位输出
                 intent.putExtra(EXTRA_DATA, stringBuilder.toString());
                 intent.putExtra(EXTRA_DATA1, data);
-                Log.e(TAG, "broadcastUpdate: EXRA_DATAD"+ stringBuilder.toString());
             }
         }
         sendBroadcast(intent);

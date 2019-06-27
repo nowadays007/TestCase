@@ -58,8 +58,8 @@ public class LeDeviceListAdapter extends BaseAdapter {
         if (view == null){
             view = mInflater.inflate(R.layout.device_list, null,false);
 
-        viewHo.deviceAddress = (TextView) view.findViewById(R.id.device_address);
-        viewHo.deviceName = (TextView) view.findViewById(R.id.device_name);
+        viewHo.deviceAddress = view.findViewById(R.id.device_address);
+        viewHo.deviceName = view.findViewById(R.id.device_name);
         viewHo.deviceName.getPaint().setFlags(Paint. UNDERLINE_TEXT_FLAG ); //下划线
                 view.setTag(viewHo);
         //View中的setTag(Onbect)表示给View添加一个格外的数据，以后可以用getTag()将这个数据取出来

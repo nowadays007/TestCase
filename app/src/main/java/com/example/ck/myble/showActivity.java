@@ -254,8 +254,8 @@ public class showActivity extends Activity {
         }
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        textView2 = (TextView) findViewById(R.id.tv_showRecive);
-        uploadbtn = (Button) findViewById(R.id.uploadbtn);
+        textView2 = findViewById(R.id.tv_showRecive);
+        uploadbtn = findViewById(R.id.uploadbtn);
 
         IntentFilter filter=new IntentFilter();
         filter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
@@ -426,22 +426,22 @@ public class showActivity extends Activity {
         if (TestCaseListActivity.probNumber == 2) {
             characteristic1 = MyApplication.getInstance().mBluetoothLeService.characteristicByUUID();
             characteristic1.setValue(Utils.getHexBytes(str));
-            MyApplication.getInstance().mBluetoothLeService.mBluetoothGatt.writeCharacteristic(characteristic1);
+            BluetoothLeService.mBluetoothGatt.writeCharacteristic(characteristic1);
             nowCase = str;
         } else if (TestCaseListActivity.probNumber == 4) {
             characteristic1 = MyApplication.getInstance().mBluetoothLeService.characteristiByUUIDProb();
             characteristic1.setValue(Utils.getHexBytes(str));
-            MyApplication.getInstance().mBluetoothLeService.mBluetoothGatt.writeCharacteristic(characteristic1);
+            BluetoothLeService.mBluetoothGatt.writeCharacteristic(characteristic1);
             nowCase = str;
         } else if (TestCaseListActivity.probNumber == 1) {
             characteristic1 = MyApplication.getInstance().mBluetoothLeService.characteristiByUUIDIwown();
             characteristic1.setValue(Utils.getHexBytes(str));
-            MyApplication.getInstance().mBluetoothLeService.mBluetoothGatt.writeCharacteristic(characteristic1);
+            BluetoothLeService.mBluetoothGatt.writeCharacteristic(characteristic1);
             nowCase = str;
         } else if (TestCaseListActivity.probNumber == 3) {
             characteristic1 = MyApplication.getInstance().mBluetoothLeService.characteristiByUUIDZG();
             characteristic1.setValue(Utils.getHexBytes(str));
-            MyApplication.getInstance().mBluetoothLeService.mBluetoothGatt.writeCharacteristic(characteristic1);
+            BluetoothLeService.mBluetoothGatt.writeCharacteristic(characteristic1);
             nowCase = str;
         }
     }

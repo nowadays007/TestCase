@@ -70,7 +70,7 @@ public class TestCaseListActivity extends Activity implements View.OnClickListen
     }
 
     public void Inivete(){
-        cslist_view = (ListView)findViewById(R.id.tsCaseList) ;
+        cslist_view = findViewById(R.id.tsCaseList);
         if (null!=caselist && caselist.size()>0){
             CaseAdapter caseAdapter = new CaseAdapter(this,R.layout.testcaselistlayout,caselist);
             cslist_view.setAdapter(caseAdapter);

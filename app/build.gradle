@@ -31,11 +31,12 @@ android {
             dirs 'libs'
         }
     }
+
 }
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-    implementation(name: 'blesdk', ext: 'aar')
+    implementation(name: 'sdkble', ext: 'aar')
 
     implementation 'com.android.support:appcompat-v7:26.0.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'

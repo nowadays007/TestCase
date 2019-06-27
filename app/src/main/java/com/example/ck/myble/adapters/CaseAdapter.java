@@ -33,11 +33,11 @@ public class CaseAdapter extends ArrayAdapter<CaseListData1> {
         final CaseListData1 caseListData1 = getItem(position);
         if (caseListData1 != null) {
 //            View backgrounbp = (View)v.findViewById(R.id.tsCaseList);
-            TextView tv_case_name = (TextView) v.findViewById(R.id.case_name);
-            TextView tv_case_creator = (TextView) v.findViewById(R.id.case_creator);
-            TextView tv_case_protobuf = (TextView) v.findViewById(R.id.case_protobuf);
-            TextView tv_case_device_model = (TextView) v.findViewById(R.id.case_device_model);
-            TextView tv_case_desc = (TextView) v.findViewById(R.id.case_desc);
+            TextView tv_case_name = v.findViewById(R.id.case_name);
+            TextView tv_case_creator = v.findViewById(R.id.case_creator);
+            TextView tv_case_protobuf = v.findViewById(R.id.case_protobuf);
+            TextView tv_case_device_model = v.findViewById(R.id.case_device_model);
+            TextView tv_case_desc = v.findViewById(R.id.case_desc);
 
             tv_case_name.setText(caseListData1.getName());
             tv_case_creator.setText(caseListData1.getCreator());
