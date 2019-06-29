@@ -30,6 +30,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -64,6 +65,7 @@ import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
 
+//打包签名密码文件 factory 123456
 
 public class MainActivity extends AppCompatActivity {
     private int number = 1;
@@ -119,6 +121,14 @@ public class MainActivity extends AppCompatActivity {
                 if (str.substring(0, 8).equals("44541400")) {
                     if (a == 1) {
                         sendnumber();
+//                        Handler sendhandler = new Handler();
+//                        sendhandler.postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                sendnumber();
+//                                a = a + 1;
+//                            }
+//                        }, 2000);
                         a = a + 1;
                     }
                 }
@@ -181,6 +191,17 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        PermissionsUtils.handleSTORAGEWrite(this, new PermissionsUtils.PermissinCallBack() {
+            @Override
+            public void callBackOk() {
+
+            }
+
+            @Override
+            public void callBackFial() {
+
+            }
+        });
 
         // 是否支持BLE
 //
@@ -204,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
         resultImg = findViewById(R.id.result_img);
         status_tv = findViewById(R.id.status);
 
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         beginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -213,14 +235,10 @@ public class MainActivity extends AppCompatActivity {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        /**
-                         *10秒后开始搜索连接
-                         */
                         scanLeDevice(true);
-
                     }
                 }, 2000);
-                mainHandler.postDelayed(r, 12000);
+                mainHandler.postDelayed(r, 15000);
             }
         });
 
@@ -384,7 +402,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "=========================== 连接");
             } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
 //                mConnected = false;
-                status_tv.setText("设备已断开连");
+                status_tv.setText("设备已断开连接");
                 Log.e(TAG, "=========================== 断连了");
             } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
                 displayGattServices(mBluetoothLeService.getSupportedGattServices());
@@ -452,12 +470,14 @@ public class MainActivity extends AppCompatActivity {
         characteristic1.setValue(bytes);
         MyApplication.getInstance().mBluetoothLeService.mBluetoothGatt.writeCharacteristic(characteristic1);
 
+//        byte[] bytes = Utils.hexStringToBytes("44541600E590000010011A120A104C424230313139303632393030303334");
+//        BluetoothGattCharacteristic characteristic1 = MyApplication.getInstance().mBluetoothLeService.characteristiByUUIDProb();
+//        characteristic1.setValue(bytes);
+//        MyApplication.getInstance().mBluetoothLeService.mBluetoothGatt.writeCharacteristic(characteristic1);
+
         beginBtn.setText("指令已发送。。。");
 
         /**存数据**/
-//        SharedPreferences.Editor editor = getSharedPreferences("factorynum", Context.MODE_PRIVATE).edit();
-//        editor.putInt("number", number);
-//        editor.commit();
         String fileName = "numberN.txt";
         FileUtils.writeToFile(number+"", "/sdcard/FactoryTest/", fileName);
     }
