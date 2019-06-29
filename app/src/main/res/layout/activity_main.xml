@@ -32,6 +32,7 @@
         android:layout_marginTop="20dp"
         app:layout_constraintLeft_toLeftOf="@id/begin_btn"
         app:layout_constraintTop_toBottomOf="@id/begin_btn"/>
+
     <TextView
         android:id="@+id/deviceName"
         android:layout_width="wrap_content"
@@ -44,6 +45,53 @@
         app:layout_constraintBottom_toBottomOf="@id/deviceN"
         android:text="-- --"/>
 
+
+    <TextView
+        android:id="@+id/write_tv"
+        android:text="烧录编号:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#343434"
+        android:textSize="15dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="@id/deviceN"
+        app:layout_constraintTop_toBottomOf="@id/deviceN"/>
+
+    <TextView
+        android:id="@+id/write_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#343434"
+        android:textSize="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        app:layout_constraintLeft_toRightOf="@id/write_tv"
+        app:layout_constraintBottom_toBottomOf="@id/write_tv"
+        android:text="-- --"/>
+
+    <TextView
+        android:id="@+id/status_tv"
+        android:text="状态:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="15dp"
+        android:textColor="#343434"
+        app:layout_constraintLeft_toLeftOf="@id/write_tv"
+        app:layout_constraintTop_toBottomOf="@id/write_tv"/>
+
+    <TextView
+        android:id="@+id/status"
+        android:text="--"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="15dp"
+        android:textColor="#343434"
+        app:layout_constraintLeft_toRightOf="@id/status_tv"
+        app:layout_constraintTop_toBottomOf="@id/write_tv"/>
+
     <TextView
         android:id="@+id/resultT"
         android:text="操作结果："
@@ -52,14 +100,15 @@
         android:textColor="#343434"
         android:textSize="15dp"
         android:layout_marginTop="30dp"
-        app:layout_constraintTop_toBottomOf="@id/deviceN"
-        app:layout_constraintLeft_toLeftOf="@id/deviceN"/>
+        app:layout_constraintTop_toBottomOf="@id/status_tv"
+        app:layout_constraintLeft_toLeftOf="@id/status_tv"/>
     <ImageView
         android:id="@+id/result_img"
         android:src="@drawable/right3x"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="@id/resultT"
         app:layout_constraintTop_toBottomOf="@id/resultT" />
     <TextView
@@ -67,11 +116,28 @@
         android:text="--"
         android:textSize="20dp"
         android:textColor="#343434"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toRightOf="@id/result_img"
         app:layout_constraintBottom_toBottomOf="@id/result_img"/>
 
+
+
+    <Button
+        android:id="@+id/next_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="下一个"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/user_btn_active_bg_selector"
+        android:textSize="15dp"
+        android:textColor="#ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

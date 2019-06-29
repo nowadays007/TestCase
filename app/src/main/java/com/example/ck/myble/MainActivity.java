@@ -15,39 +15,74 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ck.myble.adapters.LeDeviceListAdapter;
+import com.example.ck.myble.dataFile.TestCaseListActivity;
+import com.example.ck.myble.utils.FileUtils;
+import com.example.ck.myble.utils.JsonTool;
 import com.example.ck.myble.utils.PermissionsUtils;
 import com.example.ck.myble.utils.SampleGattAttributes;
 import com.example.ck.myble.utils.Utils;
+import com.zeroner.blemidautumn.bluetooth.cmdimpl.ProtoBufReceiverCmd;
 import com.zeroner.blemidautumn.bluetooth.cmdimpl.ProtoBufSendBluetoothCmdImpl;
+import com.zeroner.blemidautumn.bluetooth.model.ProtoBufHardwareInfo;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import static android.content.ContentValues.TAG;
+
 
 public class MainActivity extends AppCompatActivity {
+    private int number = 1;
+    private String numberStr;
+    private String writeStr = "";
+    private String hexwriteStr = "";
+    private int rss;
+
+    private int a = 1;
+    private int b = 1;
+    private boolean isOutTime = true;
 
     private Button beginBtn;
+    private Button nextBtn;
     private TextView deviceName;
+    private TextView write_text;
+    private TextView status_tv;
+    private TextView result;
+    private ImageView resultImg;
     private BluetoothAdapter mBluetoothAdapter;
     private boolean mScanning;
     private Handler mHandler;
@@ -57,6 +92,75 @@ public class MainActivity extends AppCompatActivity {
     private static final long SCAN_PERIOD = 10000;
 
     private String TAG = "MainActivty";
+
+    Handler mainHandler = new Handler();
+    Runnable r = new Runnable() {
+        @Override
+        public void run() {
+            if (isOutTime){
+                resultImg.setVisibility(View.VISIBLE);
+                result.setVisibility(View.VISIBLE);
+                result.setText("烧录失败(超时)");
+                beginBtn.setText("开始烧录");
+                resultImg.setImageResource(R.drawable.wrong3x);
+                mBluetoothLeService.disconnect();
+            }
+
+        }
+    };
+
+    MyBroadcastReceiver receiver=new MyBroadcastReceiver();
+    private class MyBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(final Context context, Intent intent) {
+            if (intent.getAction().equals(BluetoothLeService.ACTION_DATA_AVAILABLE)) {
+                String str = intent.getStringExtra(BluetoothLeService.EXTRA_DATA).toString();
+                str = str.replace(" ", "");
+                if (str.substring(0, 8).equals("44541400")) {
+                    if (a == 1) {
+                        sendnumber();
+                        a = a + 1;
+                    }
+                }
+                if (str.substring(0, 8).equals("44547F00")) {
+                    if (b == 1){
+                        if (str.indexOf(hexwriteStr) != -1) {
+                            resultImg.setVisibility(View.VISIBLE);
+                            result.setVisibility(View.VISIBLE);
+                            result.setText("烧录成功");
+                            resultImg.setImageResource(R.drawable.right3x);
+                            beginBtn.setText("开始烧录");
+                            writeLog();
+                            mBluetoothLeService.disconnect();
+                            isOutTime = false;
+                        }else {
+                            b = b+1;
+                        }
+                    }else {
+                        if (str.indexOf(hexwriteStr) != -1) {
+                            resultImg.setVisibility(View.VISIBLE);
+                            result.setVisibility(View.VISIBLE);
+                            result.setText("烧录成功");
+                            resultImg.setImageResource(R.drawable.right3x);
+                            beginBtn.setText("开始烧录");
+                            writeLog();
+                        } else {
+                            resultImg.setVisibility(View.VISIBLE);
+                            result.setVisibility(View.VISIBLE);
+                            result.setText("烧录失败");
+                            beginBtn.setText("开始烧录");
+                            resultImg.setImageResource(R.drawable.wrong3x);
+                        }
+                        mBluetoothLeService.disconnect();
+                        isOutTime = false;
+                    }
+
+
+                }
+
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // 是否支持BLE
+//
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)){
             Toast.makeText(this,"BLE IS NOT SUPPORTED",Toast.LENGTH_SHORT).show();
             finish();
@@ -92,12 +197,18 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         beginBtn = findViewById(R.id.begin_btn);
+        nextBtn = findViewById(R.id.next_btn);
         deviceName = findViewById(R.id.deviceName);
+        write_text = findViewById(R.id.write_text);
+        result = findViewById(R.id.result_text);
+        resultImg = findViewById(R.id.result_img);
+        status_tv = findViewById(R.id.status);
+
 
         beginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                beginBtn.setText("正在烧录。。。");
+                beginBtn.setText("操作进行中。。。");
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -106,14 +217,31 @@ public class MainActivity extends AppCompatActivity {
                          *10秒后开始搜索连接
                          */
                         scanLeDevice(true);
+
                     }
-                }, 10000);
+                }, 2000);
+                mainHandler.postDelayed(r, 12000);
             }
         });
 
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBluetoothLeService.disconnect();
+                finish();
+                mBluetoothLeService = null;
+                startActivity(getIntent());
+                Log.e(TAG, "onClick: 888888"+a+"   "+b );
+            }
+        });
 
+        //注册收指令的广播
+        IntentFilter filter=new IntentFilter();
+        filter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
+        this.registerReceiver(receiver,filter);
 
     }
+
 
     @Override
     protected void onResume() {   //在onResume()方面里进行刷新操作
@@ -124,7 +252,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
             }
         }
-//        scanLeDevice(true);
 
         registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
         if (mBluetoothLeService != null) {
@@ -155,6 +282,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        this.unregisterReceiver(receiver);
         unbindService(mServiceConnection);
         mBluetoothLeService = null;
     }
@@ -170,6 +298,7 @@ public class MainActivity extends AppCompatActivity {
             }, SCAN_PERIOD);
 
             mScanning = true;
+            status_tv.setText("设备搜索中。。。。。");
             mBluetoothAdapter.startLeScan(mLeScanCallback);
         } else {
             mScanning = false;
@@ -184,20 +313,19 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
+                    rss = rssi;
+//                    Log.e(TAG, "rssi信号强度: "+rssi );
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {       //当前线程切换到主线程
-//                            Log.e(TAG, "scanLeDevice55555555: "+mLeDeviceListAdapter.getCount() );
 //                            if(mLeDeviceListAdapter.getCount()>80){
 //                                mScanning = false;
 //                                mBluetoothAdapter.stopLeScan(mLeScanCallback);
 //                            }else {
                                 Utils.setShareAddress(MainActivity.this,device.getAddress(),device.getName());
                                 if(device.getName()!=null) {
-                                    if (device.getName().substring(0, 5).equals("le B1") ) {
-                                        Log.e("哈哈哈哈：", device.getName().substring(0,2));
+                                    if (device.getName().substring(0, 5).equals("le B1") && rss>-70) {
                                         deviceName.setText(device.getName());
-
 //                                        if (mScanning) {
                                             mBluetoothAdapter.stopLeScan(mLeScanCallback);
                                             mScanning = false;
@@ -252,35 +380,87 @@ public class MainActivity extends AppCompatActivity {
             final String action = intent.getAction();
             if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
 //                mConnected = true;
+                status_tv.setText("已连接");
                 Log.e(TAG, "=========================== 连接");
             } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
 //                mConnected = false;
+                status_tv.setText("设备已断开连");
                 Log.e(TAG, "=========================== 断连了");
             } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
                 displayGattServices(mBluetoothLeService.getSupportedGattServices());
                 Log.e(TAG, "=========================== 显示服务displayGattServices");
+//                sendnumber();
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
-//                displayData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
-                Log.e(TAG, "=========================== 广播服务 ");
-
-
-                byte[] bytetime = ProtoBufSendBluetoothCmdImpl.getInstance().setTime(1561507200);
-                BluetoothGattCharacteristic characteristictime = MyApplication.getInstance().mBluetoothLeService.characteristiByUUIDProb();
-                characteristictime.setValue(bytetime);
-                BluetoothLeService.mBluetoothGatt.writeCharacteristic(characteristictime);
-
-
-//                byte[] bytes = ProtoBufSendBluetoothCmdImpl.getInstance().writeHardwareFeatures("");
-//                BluetoothGattCharacteristic characteristic1 = MyApplication.getInstance().mBluetoothLeService.characteristiByUUIDProb();
-//                characteristic1.setValue(bytes);
-//                MyApplication.getInstance().mBluetoothLeService.mBluetoothGatt.writeCharacteristic(characteristic1);
-
-                //烧录成功后断开连接
-                mBluetoothLeService.disconnect();
-
+//                Log.e(TAG, "=========================== 广播服务 ");
+//                sendnumber();
             }
         }
     };
+
+    //发送烧录指令
+    void sendnumber(){
+        Calendar c = Calendar.getInstance();//
+        int mYear = c.get(Calendar.YEAR)-2000; // 获取当前年份
+        int mMonth = c.get(Calendar.MONTH) + 1;// 获取当前月份
+        int mDay = c.get(Calendar.DAY_OF_MONTH);// 获取当日期
+
+        File file = new File("/sdcard/FactoryTest/"+"numberN.txt");
+        if (file.exists()) {
+            Log.e(TAG,"***  存在****  ");
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(file));
+                String readline = "";
+                StringBuffer sb = new StringBuffer();
+                while ((readline = br.readLine()) != null) {
+                    Log.e(TAG,"***  readline****  "+ readline);
+                    sb.append(readline);
+                }
+                br.close();
+                Log.e(TAG,"***  读取的字符串****  "+ sb.toString());
+                number = Integer.parseInt(sb.toString())+1;
+            }catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.e(TAG,"*** 不存在 ****  ");
+        }
+
+        numberStr = String.valueOf(number);
+        String yearstr= String.valueOf(mYear);
+        String Monthstr= String.valueOf(mMonth);
+        String Daystr= String.valueOf(mDay);
+        while (numberStr.length() < 5){
+            numberStr = "0"+numberStr;
+        }
+        if (yearstr.length()<2){
+            yearstr = "0"+yearstr;
+        }
+        if (Monthstr.length()<2){
+            Monthstr = "0"+Monthstr;
+        }
+        if (Daystr.length()<2){
+            Daystr = "0"+Daystr;
+        }
+        writeStr = "LBB01"+yearstr+Monthstr+Daystr+numberStr;
+        hexwriteStr = Utils.str2HexStr(writeStr);
+        Log.e("哈哈哈哈:",writeStr);
+        write_text.setText(writeStr);
+        byte[] bytes = ProtoBufSendBluetoothCmdImpl.getInstance().writeHardwareFeatures(writeStr);
+        BluetoothGattCharacteristic characteristic1 = MyApplication.getInstance().mBluetoothLeService.characteristiByUUIDProb();
+        characteristic1.setValue(bytes);
+        MyApplication.getInstance().mBluetoothLeService.mBluetoothGatt.writeCharacteristic(characteristic1);
+
+        beginBtn.setText("指令已发送。。。");
+
+        /**存数据**/
+//        SharedPreferences.Editor editor = getSharedPreferences("factorynum", Context.MODE_PRIVATE).edit();
+//        editor.putInt("number", number);
+//        editor.commit();
+        String fileName = "numberN.txt";
+        FileUtils.writeToFile(number+"", "/sdcard/FactoryTest/", fileName);
+    }
 
     void connectAct(String DeviceName,String DeviceAddress){
 
@@ -343,5 +523,14 @@ public class MainActivity extends AppCompatActivity {
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
         return intentFilter;
+    }
+
+    void writeLog(){
+//        LBB0119060600007  EE-71-E1-9A-75-D2  2019-06-06  11:41:02
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String timestr = df.format(new Date());
+        String logstr = writeStr+"  "+mDeviceAddress+"  "+timestr;
+        String fileName = "log.txt";
+        FileUtils.writeTxtToFile(logstr, "/sdcard/FactoryTest/", fileName);
     }
 }
