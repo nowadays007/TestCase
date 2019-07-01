@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
     private int rss;
 
     private int a = 1;
+    private boolean isConnect = false;
     private int b = 1;
     private boolean isOutTime = true;
 
@@ -112,7 +113,10 @@ public class MainActivity extends AppCompatActivity {
                 beginBtn.setClickable(false);
                 beginBtn.setBackgroundColor(R.color.color3);
                 resultImg.setImageResource(R.drawable.wrong3x);
-                mBluetoothLeService.disconnect();
+                if (isConnect == true){
+                    mBluetoothLeService.disconnect();
+                }
+
             }
 
         }
@@ -325,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {       //当前线程切换到主线程
                                 Utils.setShareAddress(MainActivity.this,device.getAddress(),device.getName());
                                 if(device.getName()!=null) {
-                                    if (device.getName().substring(0, 5).equals("le B1") && rss>-59) {
+                                    if (device.getName().substring(0, 5).equals("le B1") && rss>-50) {
                                         deviceName.setText(device.getName());
                                             mBluetoothAdapter.stopLeScan(mLeScanCallback);
                                             mScanning = false;
@@ -377,7 +381,7 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
             if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
-//                mConnected = true;
+                isConnect = true;
                 status_tv.setText("已连接");
                 Log.e(TAG, "=========================== 连接");
                 Handler sendhandler = new Handler();
