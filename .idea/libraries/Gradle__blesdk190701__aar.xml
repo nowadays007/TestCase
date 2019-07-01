@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: blesdk190701:@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/blesdk190701.aar/95e2f809936d43f7e968544eab5a282b/jars/libs/wearable180725.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/blesdk190701.aar/95e2f809936d43f7e968544eab5a282b/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/blesdk190701.aar/95e2f809936d43f7e968544eab5a282b/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

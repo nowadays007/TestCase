@@ -119,39 +119,6 @@ public class BluetoothLeService extends Service {
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicWrite(gatt, characteristic, status);
             Log.e(TAG, " 写指令 service onCharacteristicWrite---: "+ Utils.bytesToHexString(characteristic.getValue()));
-
-            try {
-                int s = showActivity.sendLength - showActivity.sendtabLength;
-                if (!ProtoBufUUID.BAND_CHARACT_NOTIFY_UUID.equals(characteristic.getUuid()) &&s > 0) {
-                    byte[] c;
-                    if (s > 20) {
-                        c = new byte[20];
-                        for (int i = 0; i < 20; i++) {
-                            c[i] = showActivity.a[i + showActivity.sendtabLength];
-                        }
-                        showActivity.sendtabLength += 20;
-                        Log.e(TAG, "onCharacteristicWrite: c  %%%% %%%% nnnn"+c);
-                    } else {
-                        c = new byte[s];
-                        for (int i = 0; i < s; i++) {
-                            c[i] = showActivity.a[i + showActivity.sendtabLength];
-                        }
-                        showActivity.sendtabLength += s;
-                    }
-
-                    BluetoothGattCharacteristic ztic1 = MyApplication.getInstance().mBluetoothLeService.characteristiByUUIDZG();
-                    ztic1.setValue(c);
-                    mBluetoothGatt.writeCharacteristic(ztic1);
-
-                } else {
-                    showActivity.sendLength = -1;
-                    showActivity.sendtabLength = -1;
-                }
-
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
         }
 
         @Override
@@ -202,7 +169,7 @@ public class BluetoothLeService extends Service {
                             byte low = (byte) (a & 0xff);
                             if (high == newByte[5] && low == newByte[4]) {
                                 broadcastUpdatePro(ACTION_DATA_AVAILABLE, characteristic,newByte);
-                                Log.e(TAG,"完整的返回值："+Utils.bytesToHexString(newByte));
+//                                Log.e(TAG,"完整的返回值："+Utils.bytesToHexString(newByte));
                                 super.onCharacteristicChanged(gatt, characteristic);
                             }
                             newByte = new byte[]{};

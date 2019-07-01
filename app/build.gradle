@@ -36,7 +36,7 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-    implementation(name: 'sdkble', ext: 'aar')
+    implementation(name: 'blesdk190701', ext: 'aar')
 
     implementation 'com.android.support:appcompat-v7:26.0.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
