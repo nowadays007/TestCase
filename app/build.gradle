@@ -8,6 +8,12 @@ android {
             storeFile file('/Users/ck/Desktop/TestCase/app/src/factorysign')
             storePassword '123456'
         }
+        watch {
+            keyAlias 'watch'
+            keyPassword '123456'
+            storeFile file('/Users/ck/Desktop/TestCase/app/src/watchsign')
+            storePassword '123456'
+        }
     }
     compileSdkVersion 26
     defaultConfig {
@@ -27,6 +33,7 @@ android {
                     app_icon: "@mipmap/blueimg"//桌面图标
             ]
             resValue "string", "app_name", "手环"//应用名称
+            signingConfig signingConfigs.factory
         }
         watch {
             applicationId "com.example.ck.watch"
@@ -34,14 +41,18 @@ android {
                     app_icon: "@mipmap/redimg"//桌面图标
             ]
             resValue "string", "app_name", "手表"//应用名称
+            signingConfig signingConfigs.watch
         }
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.factory
         }
-
+        debug {
+//            signingConfig signingConfigs.factory
+        }
     }
     sourceSets {
         main {
