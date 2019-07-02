@@ -77,6 +77,10 @@ public class MainActivity extends AppCompatActivity {
     private String hexwriteStr = null;
     private int rss;
 
+    private String watchf;
+    private String watchWrite;
+    private String filepath;
+
     private int a = 1;
     private boolean isConnect = false;
     private int b = 1;
@@ -110,10 +114,10 @@ public class MainActivity extends AppCompatActivity {
                 result.setVisibility(View.VISIBLE);
                 result.setText("烧录失败(超时)");
                 beginBtn.setText("开始烧录");
-                beginBtn.setClickable(false);
-                beginBtn.setBackgroundColor(R.color.color3);
+                beginBtn.setEnabled(false);
+                beginBtn.setBackgroundColor(R.color.color1);
                 resultImg.setImageResource(R.drawable.wrong3x);
-                if (isConnect == true){
+                if (mBluetoothLeService!=null&&isConnect == true){
                     mBluetoothLeService.disconnect();
                 }
 
@@ -130,8 +134,20 @@ public class MainActivity extends AppCompatActivity {
             if (intent.getAction().equals(BluetoothLeService.ACTION_DATA_AVAILABLE)) {
                 String str = intent.getStringExtra(BluetoothLeService.EXTRA_DATA).toString();
                 str = str.replace(" ", "");
-                if (str.substring(0, 8).equals("44547F00")) {
+                if (str.substring(16, 24).equals("0A056C65")) {
                     if (b == 1){
+                        if (hexwriteStr!=null&&str.indexOf(hexwriteStr) != -1) {
+                            resultImg.setVisibility(View.VISIBLE);
+                            result.setVisibility(View.VISIBLE);
+                            result.setText("烧录成功");
+                            resultImg.setImageResource(R.drawable.right3x);
+                            beginBtn.setText("开始烧录");
+                            writeLog();
+                            mBluetoothLeService.disconnect();
+                            beginBtn.setEnabled(false);
+                            beginBtn.setBackgroundColor(R.color.color1);
+                            isOutTime = false;
+                        }else
                             b = b+1;
                     }else {
                         if (str.indexOf(hexwriteStr) != -1) {
@@ -168,7 +184,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mHandler = new Handler();
-
         PermissionsUtils.handleLOCATION(this, new PermissionsUtils.PermissinCallBack() {
             @Override
             public void callBackOk() {
@@ -235,13 +250,18 @@ public class MainActivity extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mBluetoothLeService.disconnect();
+                if (mScanning == true){
+                    mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                }
+                if (isConnect == true&& mBluetoothLeService!= null){
+                    mBluetoothLeService.disconnect();
+                }
+
                 finish();
                 mBluetoothLeService = null;
                 startActivity(getIntent());
                 a = 1;
                 b = 1;
-                Log.e(TAG, "onClick: 888888"+a+"   "+b );
             }
         });
 
@@ -249,6 +269,17 @@ public class MainActivity extends AppCompatActivity {
         IntentFilter filter=new IntentFilter();
         filter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
         this.registerReceiver(receiver,filter);
+
+        if (MyApplication.getInstance().isWatch()){
+            watchf = "le W1";
+            watchWrite = "LWW01";
+            filepath = "/sdcard/FactoryWatch/";
+        }else {
+            watchf = "le B1";
+            watchWrite = "LBB01";
+            filepath = "/sdcard/FactoryBracelet/";
+        }
+
 
     }
 
@@ -293,7 +324,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         this.unregisterReceiver(receiver);
-        unbindService(mServiceConnection);
+        if (isConnect==true){
+            unbindService(mServiceConnection);
+        }
         mBluetoothLeService = null;
     }
 
@@ -329,7 +362,7 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {       //当前线程切换到主线程
                                 Utils.setShareAddress(MainActivity.this,device.getAddress(),device.getName());
                                 if(device.getName()!=null) {
-                                    if (device.getName().substring(0, 5).equals("le B1") && rss>-50) {
+                                    if (device.getName().substring(0, 5).equals(watchf) && rss>-50) {
                                         deviceName.setText(device.getName());
                                             mBluetoothAdapter.stopLeScan(mLeScanCallback);
                                             mScanning = false;
@@ -414,7 +447,7 @@ public class MainActivity extends AppCompatActivity {
         int mMonth = c.get(Calendar.MONTH) + 1;// 获取当前月份
         int mDay = c.get(Calendar.DAY_OF_MONTH);// 获取当日期
 
-        File file = new File("/sdcard/FactoryTest/"+"numberN.txt");
+        File file = new File(filepath+"numberN.txt");
         if (file.exists()) {
             Log.e(TAG,"***  存在****  ");
             try {
@@ -428,11 +461,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG,"***  读取的字符串****  "+ sb.toString());
                 SimpleDateFormat today = new SimpleDateFormat("yyyy-MM-dd");
                 String todaystr = today.format(new Date());
-//                Log.e(TAG,"***  今天的年月日****  "+ todaystr);
-//                Log.e(TAG,"***  今天的年月日****  "+ sb.substring(0,10));
                 if (sb.substring(0,10).toString().equals(todaystr)){
                     String num = sb.substring(11);
-//                    Log.e(TAG,"***  num ****  "+ num);
                     number = Integer.parseInt(num)+1;
                 }else {
                     number = 1;
@@ -463,7 +493,7 @@ public class MainActivity extends AppCompatActivity {
         if (Daystr.length()<2){
             Daystr = "0"+Daystr;
         }
-        writeStr = "LBB01"+yearstr+Monthstr+Daystr+numberStr;
+        writeStr = watchWrite+yearstr+Monthstr+Daystr+numberStr;
         hexwriteStr = Utils.str2HexStr(writeStr);
         Log.e("哈哈哈哈:",writeStr);
         write_text.setText(writeStr);
@@ -476,7 +506,7 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat dfnum = new SimpleDateFormat("yyyy-MM-dd");
         String numtimestr = dfnum.format(new Date());
         String fileName = "numberN.txt";
-        FileUtils.writeToFile(numtimestr+" "+number, "/sdcard/FactoryTest/", fileName);
+        FileUtils.writeToFile(numtimestr+" "+number, filepath, fileName);
     }
 
     void connectAct(String DeviceName,String DeviceAddress){
@@ -548,7 +578,7 @@ public class MainActivity extends AppCompatActivity {
         String timestr = df.format(new Date());
         String logstr = writeStr+"  "+mDeviceAddress+"  "+timestr;
         String fileName = "log.txt";
-        FileUtils.writeTxtToFile(logstr, "/sdcard/FactoryTest/", fileName);
+        FileUtils.writeTxtToFile(logstr, filepath, fileName);
     }
 
     /**

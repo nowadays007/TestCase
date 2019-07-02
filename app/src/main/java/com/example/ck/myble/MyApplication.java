@@ -11,11 +11,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
+import static com.github.dfqin.grantor.PermissionsUtil.TAG;
+
 public class MyApplication extends Application {
     private static MyApplication instance;
     private Context context;
+    private String packgeName;
 
     public  BluetoothLeService mBluetoothLeService;
+
 
 
     public static  MyApplication getInstance() {
@@ -29,6 +33,8 @@ public class MyApplication extends Application {
         context=this;
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
+
+        packgeName = context.getPackageName();
     }
 
 
@@ -54,5 +60,14 @@ public class MyApplication extends Application {
 
     public void setContext(Context context) {
         this.context = context;
+    }
+
+    public boolean isWatch(){
+        Log.e(TAG, "isWatch: "+packgeName.toString());
+        if (packgeName.toString().equals("com.example.ck.watch")){
+            return true;
+        }else {
+            return false;
+        }
     }
 }
