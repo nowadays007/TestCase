@@ -7,20 +7,32 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/appName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="appName"
+        android:layout_marginTop="30dp"
+        android:textColor="#343434"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <Button
         android:id="@+id/begin_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="开始烧录"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="30dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/user_btn_active_bg_selector"
         android:textSize="15dp"
         android:textColor="#ffffff"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/appName"
+        app:layout_constraintLeft_toLeftOf="@+id/appName"/>
 
     <TextView
         android:id="@+id/deviceN"

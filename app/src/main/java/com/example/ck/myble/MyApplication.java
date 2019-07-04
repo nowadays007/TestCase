@@ -5,6 +5,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.IBinder;
 import android.os.ParcelUuid;
 import android.support.v4.app.Fragment;
@@ -64,10 +66,26 @@ public class MyApplication extends Application {
 
     public boolean isWatch(){
         Log.e(TAG, "isWatch: "+packgeName.toString());
-        if (packgeName.toString().equals("com.example.ck.watch")){
+        if (packgeName.toString().equals("com.example.ck.watch_hw100")){
             return true;
         }else {
             return false;
         }
+    }
+
+    /**
+     * 获取应用程序名称
+     */
+    public static synchronized String getAppName(Context context) {
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(
+                    context.getPackageName(), 0);
+            int labelRes = packageInfo.applicationInfo.labelRes;
+            return context.getResources().getString(labelRes);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

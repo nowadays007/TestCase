@@ -2,16 +2,16 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
-        factory {
-            keyAlias 'factory'
+        braceletI7L {
+            keyAlias 'braceletI7L'
             keyPassword '123456'
-            storeFile file('/Users/ck/Desktop/TestCase/app/src/factorysign')
+            storeFile file('/Users/ck/Desktop/TestCase/app/src/i7lsign')
             storePassword '123456'
         }
-        watch {
-            keyAlias 'watch'
+        watchHw100 {
+            keyAlias 'watchHw100'
             keyPassword '123456'
-            storeFile file('/Users/ck/Desktop/TestCase/app/src/watchsign')
+            storeFile file('/Users/ck/Desktop/TestCase/app/src/hw100sign')
             storePassword '123456'
         }
     }
@@ -27,31 +27,33 @@ android {
         flavorDimensions "versionCode"
     }
     productFlavors {
-        bracelet {
-            applicationId "com.example.ck.bracelet"
+        bracelet_I7L {
+            applicationId "com.example.ck.bracelet_I7L"
             manifestPlaceholders = [
                     app_icon: "@mipmap/blueimg"//桌面图标
             ]
-            resValue "string", "app_name", "手环"//应用名称
-            signingConfig signingConfigs.factory
+            resValue "string", "app_name", "手环I7L"//应用名称
+            signingConfig signingConfigs.braceletI7L
         }
-        watch {
-            applicationId "com.example.ck.watch"
+        watch_hw100 {
+            applicationId "com.example.ck.watch_hw100"
             manifestPlaceholders = [
                     app_icon: "@mipmap/redimg"//桌面图标
             ]
-            resValue "string", "app_name", "手表"//应用名称
-            signingConfig signingConfigs.watch
+            resValue "string", "app_name", "手表hw100"//应用名称
+            signingConfig signingConfigs.watchHw100
         }
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            signingConfig signingConfigs.factory
+//            signingConfig signingConfigs.braceletI7L
+//            signingConfig signingConfigs.braceletI7L
         }
         debug {
-//            signingConfig signingConfigs.factory
+//            signingConfig signingConfigs.braceletI7L
+//            signingConfig signingConfigs.braceletI7L
         }
     }
     sourceSets {

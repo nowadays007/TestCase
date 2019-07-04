@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button beginBtn;
     private Button nextBtn;
+    private TextView appName;
     private TextView deviceName;
     private TextView write_text;
     private TextView device_RSSI;
@@ -120,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 if (mBluetoothLeService!=null&&isConnect == true){
                     mBluetoothLeService.disconnect();
                 }
+                nextBtn.setVisibility(View.VISIBLE);
 
             }
 
@@ -146,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
                             mBluetoothLeService.disconnect();
                             beginBtn.setEnabled(false);
                             beginBtn.setBackgroundColor(R.color.color1);
+                            nextBtn.setVisibility(View.VISIBLE);
                             isOutTime = false;
                         }else
                             b = b+1;
@@ -168,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
                         beginBtn.setClickable(false);
                         beginBtn.setBackgroundColor(R.color.color3);
                         isOutTime = false;
+                        nextBtn.setVisibility(View.VISIBLE);
                     }
 
 
@@ -229,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
         result = findViewById(R.id.result_text);
         resultImg = findViewById(R.id.result_img);
         status_tv = findViewById(R.id.status);
+        appName = findViewById(R.id.appName);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -273,12 +278,15 @@ public class MainActivity extends AppCompatActivity {
         if (MyApplication.getInstance().isWatch()){
             watchf = "le W1";
             watchWrite = "LWW01";
-            filepath = "/sdcard/FactoryWatch/";
+            filepath = "/sdcard/HW100/";
         }else {
             watchf = "le B1";
             watchWrite = "LBB01";
-            filepath = "/sdcard/FactoryBracelet/";
+            filepath = "/sdcard/I7L/";
         }
+
+        appName.setText(MyApplication.getInstance().getAppName(this));
+        nextBtn.setVisibility(View.GONE);
 
 
     }
